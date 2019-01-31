@@ -8,7 +8,7 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+import {Platform, StyleSheet, View, TextInput, Button} from 'react-native';
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -19,12 +19,28 @@ const instructions = Platform.select({
 
 type Props = {};
 export default class App extends Component<Props> {
+  state = {
+    placeName: ''
+  }
+  placeNameChangedHandler = (val) => {
+    this.setState({
+      placeName: val
+    })
+  }
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>Welcome to React Native!</Text>
-        <Text style={styles.instructions}>This is my test app to make sure I have my setup right for Android, iOS and react-native-cli.</Text>
-        <Text style={styles.instructions}>{instructions}</Text>
+        <View style={styles.inputContainer}>
+          <TextInput 
+            placeholder="An Awesome Place"
+            value={this.state.placeName}
+            onChangeText={this.placeNameChangedHandler}
+            style={styles.placeInput}/>
+            <Button 
+              title="Add"
+              style={styles.placeButton}/>
+        </View>
+
       </View>
     );
   }
@@ -33,19 +49,22 @@ export default class App extends Component<Props> {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    padding: 50,
+    justifyContent: 'flex-start',
     alignItems: 'center',
-    backgroundColor: 'teal',
+    backgroundColor: '#fff',
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-    color: 'black'
+  inputContainer: {
+    // flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: "100%"
   },
-  instructions: {
-    textAlign: 'center',
-    color: 'black',
-    marginBottom: 5,
+  placeInput : {
+    width: "70%"
   },
+  placeButton : {
+    width: "30%"
+  }
 });

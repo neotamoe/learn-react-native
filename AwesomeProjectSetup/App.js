@@ -8,7 +8,7 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, View, TextInput, Button} from 'react-native';
+import {Platform, StyleSheet, Text, View, TextInput, Button} from 'react-native';
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -20,14 +20,28 @@ const instructions = Platform.select({
 type Props = {};
 export default class App extends Component<Props> {
   state = {
-    placeName: ''
+    placeName: '',
+    places: []
   }
   placeNameChangedHandler = (val) => {
     this.setState({
       placeName: val
     })
   }
+  placeSubmitHandler = () => {
+    if(this.state.placeName === ""){
+      return;
+    }
+    this.setState(prevState => {
+      return {
+        places: prevState.places.concat(prevState.placeName)
+      };
+    });
+  }
   render() {
+    const placesOutput = this.state.places.map((place, idx) => (
+      <Text key={idx+place}>{place}</Text>
+    ));
     return (
       <View style={styles.container}>
         <View style={styles.inputContainer}>
@@ -38,9 +52,12 @@ export default class App extends Component<Props> {
             style={styles.placeInput}/>
             <Button 
               title="Add"
-              style={styles.placeButton}/>
+              style={styles.placeButton}
+              onPress={this.placeSubmitHandler}/>
         </View>
-
+        <View>
+          {placesOutput}
+        </View>
       </View>
     );
   }

@@ -3,10 +3,9 @@ import {View, StyleSheet} from 'react-native';
 import ListItem from '../ListItem/ListItem';
 
 const list = (props) =>  {
-    console.log('props.places in list: ', props.places);
     let displayList = props.places.map((place, i) => {
         return (
-            <ListItem key={i} placeName={place} />
+            <ListItem key={i} placeName={place} onItemPressed={() => alert('Item pressed for index: ' + i)}/>
         );
     });
     return (

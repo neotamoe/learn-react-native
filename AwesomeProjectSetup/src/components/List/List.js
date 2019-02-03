@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import { StyleSheet, ScrollView} from 'react-native';
 import ListItem from '../ListItem/ListItem';
 
 const list = (props) =>  {
@@ -12,9 +12,9 @@ const list = (props) =>  {
         );
     });
     return (
-        <View style={styles.listContainer}>
+        <ScrollView style={styles.listContainer}>
             {displayList}
-        </View>
+        </ScrollView>
     );
     
 }

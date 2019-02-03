@@ -5,7 +5,10 @@ import ListItem from '../ListItem/ListItem';
 const list = (props) =>  {
     let displayList = props.places.map((place, i) => {
         return (
-            <ListItem key={i} placeName={place} onItemPressed={() => alert('Item pressed for index: ' + i)}/>
+            <ListItem 
+                key={i} 
+                placeName={place} 
+                onItemPressed={() => props.onItemDeleted(i)}/>
         );
     });
     return (
@@ -22,4 +25,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default list;
+export default list; 

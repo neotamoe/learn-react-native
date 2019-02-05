@@ -12,6 +12,7 @@ import {Platform, StyleSheet, Text, View, TextInput, Button} from 'react-native'
 
 import List from './src/components/List/List';
 import InputAndButton from './src/components/InputAndButton/InputAndButton';
+import placeImage from './src/assets/walker-art-center.jpg';
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -37,7 +38,11 @@ export default class App extends Component<Props> {
     }
     this.setState((prevState) => {
       return {
-        places: prevState.places.concat({key: Math.random(), value: this.state.placeName})
+        places: prevState.places.concat({
+          key: Math.random(), 
+          name: this.state.placeName,
+          image: placeImage
+        })
       };
     });
   }

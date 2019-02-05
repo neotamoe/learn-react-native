@@ -42,6 +42,9 @@ export default class App extends Component<Props> {
           key: Math.random(), 
           name: this.state.placeName,
           image: placeImage
+          // image: {
+          //   uri: "https://cdn.pixabay.com/photo/2016/07/06/03/48/minneapolis-1499809_960_720.jpg"
+          // }
         })
       };
     });

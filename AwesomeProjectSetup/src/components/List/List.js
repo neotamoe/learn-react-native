@@ -3,7 +3,8 @@ import { StyleSheet, FlatList} from 'react-native';
 import ListItem from '../ListItem/ListItem';
 
 const list = (props) =>  {
-    return <FlatList
+    return (
+        <FlatList
             style={styles.listContainer}
             data={props.places}
             renderItem={(info) => (
@@ -13,8 +14,9 @@ const list = (props) =>  {
                     onItemPressed={() => props.onItemSelected(info.item.key)}
                 />
             )}
-        />    
-}
+        />   
+    ); 
+};
 
 const styles = StyleSheet.create({
     listContainer: {

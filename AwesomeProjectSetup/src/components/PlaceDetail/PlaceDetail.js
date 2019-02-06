@@ -1,6 +1,5 @@
 import React from 'react';
 import {Modal, View, Image, Text, Button, StyleSheet} from 'react-native';
-import { bold } from 'ansi-colors';
 
 const placeDetail = props => {
     let modalContent = null;

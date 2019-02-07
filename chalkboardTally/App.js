@@ -16,9 +16,9 @@ import moment from 'moment';
 type Props = {};
 export default class App extends Component<Props> {
   state = {
-    startDate: moment("08-07-2018", "MM-DD-YYYY").format("MMM-DD-YYYY"),
+    startDate: moment("2018-08-07", "YYYY-MM-DD"),
     totalDays: 0,
-    currentDate: moment(moment(), "MM-DD-YYYY").format("MMM-DD-YYYY"),
+    currentDate: moment(),
     dayCount: -1,
     days: [],
     isTallyComplete: false
@@ -29,7 +29,7 @@ export default class App extends Component<Props> {
     const start = moment(this.state.startDate);
     const calculatedDays = today.diff(start, 'days');
     this.setState({ totalDays: calculatedDays});
-    this.interval = setInterval(() => this.tick(), 50);
+    this.interval = setInterval(() => this.tick(), 500);
   }
 
   tick() {

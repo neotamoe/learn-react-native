@@ -20,7 +20,8 @@ export default class App extends Component<Props> {
     totalDays: 0,
     currentDate: moment(moment(), "MM-DD-YYYY").format("MMM-DD-YYYY"),
     dayCount: -1,
-    days: []
+    days: [],
+    isTallyComplete: false
   }
 
   componentDidMount(){
@@ -28,27 +29,31 @@ export default class App extends Component<Props> {
     const start = moment(this.state.startDate);
     const calculatedDays = today.diff(start, 'days');
     this.setState({ totalDays: calculatedDays});
-    this.interval = setInterval(() => this.tick(), 250);
+    this.interval = setInterval(() => this.tick(), 50);
   }
 
   tick() {
-    if(this.state.dayCount + 1 < this.state.totalDays + 1){
+    if(this.state.dayCount + 1 < this.state.totalDays){
       this.setState(prevState => ({
         dayCount: prevState.dayCount + 1,
         days: prevState.days.concat({ key: (prevState.dayCount + 1).toString() })
       }));  
     } else {
-      clearInterval(this.interval)
+      clearInterval(this.interval);
+      this.setState({isTallyComplete: true})
     }
   }
 
   render() {
+    let summary = this.state.isTallyComplete ? <View style={styles.container}>
+          {/* <Text style={{color: 'white', margin: 5}}>Start: {this.state.startDate}</Text>
+          <Text style={{color: 'white', margin: 5}}>Today: {this.state.currentDate}</Text> */}
+          <Text style={{color: 'white', margin: 5, fontSize: 40, fontFamily: 'ChalkboardSE-Bold'}}>{this.state.totalDays} Days</Text>
+        </View> : null;
     return (
-      <View style={styles.container}>
+      <View >
         <ImageBackground source={chalkboard} style={styles.chalkboard}>
-          <Text style={{color: 'white', margin: 5}}>Start: {this.state.startDate}</Text>
-          <Text style={{color: 'white', margin: 5}}>Today: {this.state.currentDate}</Text>
-          <Text style={{color: 'white', margin: 5}}>Total Days: {this.state.totalDays}</Text>
+            <Text style={{color: 'white', fontSize: 40, fontFamily: 'ChalkboardSE-Bold'}}>Tron Tally</Text>
             <FlatList
               data={this.state.days}
               style={styles.list}
@@ -56,6 +61,7 @@ export default class App extends Component<Props> {
               numColumns={35}
               renderItem={({item}) => <Text style={ (parseInt(item.key)+1)%5==0 ? styles.tallyRotate : styles.tally}></Text>}
             />
+            {summary}
         </ImageBackground>
       </View>
     );
@@ -67,7 +73,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
   },
   chalkboard: {
     width: "100%",
@@ -81,7 +86,7 @@ const styles = StyleSheet.create({
   },
   list: {
     flexDirection: "column",
-    marginTop: 25
+    marginTop: 25,
   },
   tally: {
     display: "flex",

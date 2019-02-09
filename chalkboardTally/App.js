@@ -15,13 +15,24 @@ import Neota from './src/components/neota';
 
 type Props = {};
 export default class App extends Component<Props> {
+  state = {
+    isBenTallyDone: false
+  }
+
+  triggerNeotaTally = () => {
+    console.log('trigger neota tally')
+    this.setState({
+      isBenTallyDone: true
+    })
+  }
+
   render() {
     return (
       <View >
         <ImageBackground source={chalkboard} style={styles.chalkboard}>
           <ScrollView>
-            <Ben />
-            <Neota />
+            <Ben triggerNeotaTally={this.triggerNeotaTally}/>
+            {this.state.isBenTallyDone ? <Neota /> : null}
           </ScrollView>
         </ImageBackground>
       </View>

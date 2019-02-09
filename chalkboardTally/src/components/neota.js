@@ -13,11 +13,11 @@ class Neota extends Component {
     }
 
     componentDidMount(){
-    const today = moment(this.state.currentDate);
-    const start = moment(this.state.startDate);
-    const calculatedDays = today.diff(start, 'days');
-    this.setState({ totalDays: calculatedDays});
-    this.interval = setInterval(() => this.tick(), 50);
+        const today = moment(this.state.currentDate);
+        const start = moment(this.state.startDate);
+        const calculatedDays = today.diff(start, 'days');
+        this.setState({ totalDays: calculatedDays});
+        this.interval = setInterval(() => this.tick(), 250);            
     }
 
     tick() {
@@ -34,13 +34,13 @@ class Neota extends Component {
     render() {
         let summary = this.state.isTallyComplete ? 
             <View>
-                <Text style={{color: 'white', fontSize: 40, fontFamily: 'ChalkboardSE-Bold'}}>{this.state.totalDays} Days</Text>
+                <Text style={{color: 'white', fontSize: 32, fontFamily: 'ChalkboardSE-Bold'}}>{this.state.totalDays} Days</Text>
             </View> 
             : null;
 
         return (
             <View style={styles.container}>
-                <Text style={{color: 'white', fontSize: 40, fontFamily: 'ChalkboardSE-Bold'}}>Neota's Tron Tally</Text>
+                <Text style={{color: 'white', fontSize: 40, fontFamily: 'ChalkboardSE-Bold'}}>Neota's Wall</Text>
                 <FlatList
                 data={this.state.days}
                 style={styles.list}

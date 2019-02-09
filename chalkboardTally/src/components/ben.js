@@ -13,11 +13,11 @@ class Ben extends Component {
     }
 
     componentDidMount(){
-    const today = moment(this.state.currentDate);
-    const start = moment(this.state.startDate);
-    const calculatedDays = today.diff(start, 'days');
-    this.setState({ totalDays: calculatedDays});
-    this.interval = setInterval(() => this.tick(), 50);
+        const today = moment(this.state.currentDate);
+        const start = moment(this.state.startDate);
+        const calculatedDays = today.diff(start, 'days');
+        this.setState({ totalDays: calculatedDays});
+        this.interval = setInterval(() => this.tick(), 250);
     }
 
     tick() {
@@ -29,18 +29,22 @@ class Ben extends Component {
         } else {
             clearInterval(this.interval);
             this.setState({isTallyComplete: true})
+            
+            // this.props.triggerNeotaTally();
+
+            setTimeout(() => this.props.triggerNeotaTally(), 2000);
         }
     }
     render() {
         let summary = this.state.isTallyComplete ? 
             <View>
-                <Text style={{color: 'white', fontSize: 40, fontFamily: 'ChalkboardSE-Bold'}}>{this.state.totalDays} Days</Text>
+                <Text style={{color: 'white', fontSize: 32, fontFamily: 'ChalkboardSE-Bold'}}>{this.state.totalDays} Days</Text>
             </View> 
             : null;
 
         return (
             <View style={styles.container}>
-                <Text style={{color: 'white', fontSize: 40, fontFamily: 'ChalkboardSE-Bold'}}>Ben's Tron Tally</Text>
+                <Text style={{color: 'white', fontSize: 40, fontFamily: 'ChalkboardSE-Bold'}}>Ben's Wall</Text>
                 <FlatList
                 data={this.state.days}
                 style={styles.list}

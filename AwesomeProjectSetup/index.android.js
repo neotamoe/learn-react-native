@@ -1,23 +1,2 @@
-// file may not be necessary now with RNN, but helpful if you want to have different start for android vs ios
-
-/**
- * @format
- * @lint-ignore-every XPLATJSCOPYRIGHT1
- */
-
-import React from 'react';
-import {AppRegistry} from 'react-native';
-import { Provider } from 'react-redux';
 import App from './App';
-import configureStore from './src/store/configureStore';
-import {name as appName} from './app.json';
 
-const store = configureStore();
-
-const reactNativeRedux = () => (
-    <Provider store={store}>
-        <App />
-    </Provider>
-);
-
-AppRegistry.registerComponent(appName, () => reactNativeRedux);

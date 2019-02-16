@@ -17,34 +17,44 @@ Navigation.setRoot({
                     name: 'awesome-places.FindPlaceScreen',
                     passProps: {
                       text: 'Find Place'
-                    }
+                    },
+                    options: {
+                        bottomTab: {
+                          text: 'Find Place',
+                          icon: sources[0],
+                          testID: 'FIRST_TAB_BAR_BUTTON'
+                        },
+                        topBar: {
+                            background: {
+                                color: 'red'
+                            }
+                        }
+                    } // end options
                   }
                 }],
-                options: {
-                  bottomTab: {
-                    text: 'Find Place',
-                    icon: sources[0],
-                    testID: 'FIRST_TAB_BAR_BUTTON'
-                  }
-                }
-              }
+                
+              } // end stack
             },
             {
-              component: {
-                name: 'awesome-places.SharePlaceScreen',
-                passProps: {
-                  text: 'Share Place'
-                },
-                options: {
-                  bottomTab: {
-                    text: 'Share Place',
-                    icon: sources[1],
-                    testID: 'SECOND_TAB_BAR_BUTTON'
-                  }
+                stack: {
+                    children: [{
+                        component: {
+                            name: 'awesome-places.SharePlaceScreen',
+                            passProps: {
+                              text: 'Share Place'
+                            },
+                            options: {
+                                bottomTab: {
+                                  text: 'Share Place',
+                                  icon: sources[1],
+                                  testID: 'SECOND_TAB_BAR_BUTTON'
+                                },
+                            } // end options
+                          }
+                    }]
                 }
-              }
-            }]
-          }
+            }] // end children
+          } // end bottomTabs
         }
       });
     });

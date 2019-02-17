@@ -12,8 +12,10 @@ Navigation.setRoot({
           bottomTabs: {
             children: [{
               stack: {
+                id: "rootStack",
                 children: [{
                   component: {
+                    id: 'find',
                     name: 'awesome-places.FindPlaceScreen',
                     passProps: {
                       text: 'Find Place'
@@ -39,6 +41,7 @@ Navigation.setRoot({
                 stack: {
                     children: [{
                         component: {
+                            id: 'share',
                             name: 'awesome-places.SharePlaceScreen',
                             passProps: {
                               text: 'Share Place'

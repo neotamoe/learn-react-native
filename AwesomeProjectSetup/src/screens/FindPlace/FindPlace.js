@@ -1,14 +1,36 @@
 import React, {Component} from 'react';
 import {View, Text} from 'react-native';
 import {connect} from 'react-redux';
+import {Navigation} from 'react-native-navigation';
 
 import List from '../../components/List/List';
 
 class FindPlaceScreen extends Component {
+    itemSelectedHandler = key => {
+        console.log(this.props.places);
+        const selPlace = this.props.places.find(place => {
+            return place.key == key;
+        });
+        Navigation.push('rootStack', {
+            component: {
+                name: "awesome-places.PlaceDetailScreen",
+                passProps: {
+                    selectedPlace: selPlace
+                },
+                options: {
+                    topBar: {
+                        title: {
+                            text: selPlace.name
+                        }
+                    }
+                }
+            }            
+        })
+    }
     render() {
         return (
             <View>
-                <List places={this.props.places}/>
+                <List places={this.props.places} onItemSelected={this.itemSelectedHandler}/>
             </View>
         );
     }

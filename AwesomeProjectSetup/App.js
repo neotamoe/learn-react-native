@@ -9,21 +9,21 @@ import configureStore from './src/store/configureStore';
 const store = configureStore();
 
 // Register screens 
-Navigation.registerComponent(
+Navigation.registerComponentWithRedux(
   "awesome-places.AuthScreen", 
   () => AuthScreen, 
-  store, 
-  Provider);
-Navigation.registerComponent(
+  Provider,
+  store);
+Navigation.registerComponentWithRedux(
   "awesome-places.FindPlaceScreen", 
   () => FindPlaceScreen, 
-  store, 
-  Provider);
-Navigation.registerComponent(
+  Provider,
+  store);
+Navigation.registerComponentWithRedux(
   "awesome-places.SharePlaceScreen", 
   () => SharePlaceScreen, 
-  store, 
-  Provider);
+  Provider,
+  store);
 
 // Start an App
 Navigation.events().registerAppLaunchedListener(() => {

@@ -1,24 +1,32 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {Modal, View, Image, Text, Button, StyleSheet, TouchableOpacity} from 'react-native';
+import {Navigation} from 'react-native-navigation';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {connect} from 'react-redux';
+import {deletePlace} from '../../store/actions/index';
 
-const placeDetail = props => {
+class PlaceDetail extends Component {
 
-    return (
+    placeDeletedHandler = () => {
+        this.props.onDeletePlace(this.props.selectedPlace.key);
+        Navigation.pop(this.props.componentId);   
+    }
+
+    render () {
+        return (
             <View style={styles.modalContainer}>
-                <Image source={props.selectedPlace.image} style={styles.placeImage}></Image>
-                <Text style={styles.placeName}>{props.selectedPlace.name}</Text>
+                <Image source={this.props.selectedPlace.image} style={styles.placeImage}></Image>
+                <Text style={styles.placeName}>{this.props.selectedPlace.name}</Text>
                 <View>
-                    <TouchableOpacity onPress={props.onItemDeleted}>
+                    <TouchableOpacity onPress={this.placeDeletedHandler}>
                         <View style={styles.deleteButton}>
                             <Icon size={30} name="ios-trash" color="red"/>
                         </View>
                     </TouchableOpacity>
-                    <Button title="Close" onPress={props.onModalClosed}/>
                 </View>
             </View>
-
-    )
+        )
+    }
 }
 
 const styles = StyleSheet.create({
@@ -37,7 +45,13 @@ const styles = StyleSheet.create({
     deleteButton: {
         alignItems: "center"
     }
-})
+});
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onDeletePlace: (key) => dispatch(deletePlace(key))
+    }
+}
 
 
-export default placeDetail; 
+export default connect(null, mapDispatchToProps)(PlaceDetail); 

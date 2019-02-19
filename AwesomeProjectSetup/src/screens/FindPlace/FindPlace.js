@@ -6,12 +6,11 @@ import {Navigation} from 'react-native-navigation';
 import List from '../../components/List/List';
 
 class FindPlaceScreen extends Component {
-    itemSelectedHandler = key => {
-        console.log(this.props.places);
+    itemSelectedHandler = (key) => {
         const selPlace = this.props.places.find(place => {
             return place.key == key;
         });
-        Navigation.push('rootStack', {
+        Navigation.push('find', {
             component: {
                 name: "awesome-places.PlaceDetailScreen",
                 passProps: {
@@ -21,12 +20,16 @@ class FindPlaceScreen extends Component {
                     topBar: {
                         title: {
                             text: selPlace.name
+                        },
+                        backButton: {
+                            title: 'Back'
                         }
                     }
                 }
             }            
         })
     }
+
     render() {
         return (
             <View>

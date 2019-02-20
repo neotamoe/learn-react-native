@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text} from 'react-native';
+import {View, SafeAreaView, StyleSheet} from 'react-native';
 import {connect} from 'react-redux';
 import {Navigation} from 'react-native-navigation';
 
@@ -50,12 +50,22 @@ class FindPlaceScreen extends Component {
 
     render() {
         return (
+            <SafeAreaView style={styles.safeArea}>
+
             <View>
                 <List places={this.props.places} onItemSelected={this.itemSelectedHandler}/>
             </View>
+            </SafeAreaView>
         );
     }
 }
+
+const styles = StyleSheet.create({
+    safeArea: {
+        flex: 1,
+        backgroundColor: 'white'
+    }
+})
 
 const mapStateToProps = state => {
     return {

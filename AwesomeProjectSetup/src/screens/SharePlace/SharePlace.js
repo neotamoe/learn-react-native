@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, Button, StyleSheet, ScrollView, Image} from 'react-native';
+import {View, Text, Button, StyleSheet, ScrollView, Image, SafeAreaView} from 'react-native';
 import { connect } from 'react-redux';
 import {Navigation} from 'react-native-navigation';
 import PlaceInput from '../../components/PlaceInput/PlaceInput';
@@ -46,19 +46,21 @@ class SharePlaceScreen extends Component {
     }
     render() {
         return (
-            <ScrollView>
-                <View style={styles.container}>
-                    <MainText>
-                        <HeadingText>Share a Place With Us!</HeadingText>
-                    </MainText>
-                    <PickImage />
-                    <PickLocation />
-                    <PlaceInput placeName={this.state.placeName} onChangeText={this.placeNameChangedHandler}/>
-                    <View style={styles.button}>
-                        <Button title="Share Place!" onPress={this.placeAddedHandler}/>
+            <SafeAreaView style={styles.safeArea}>
+                <ScrollView>
+                    <View style={styles.container}>
+                        <MainText>
+                            <HeadingText>Share a Place With Us!</HeadingText>
+                        </MainText>
+                        <PickImage />
+                        <PickLocation />
+                        <PlaceInput placeName={this.state.placeName} onChangeText={this.placeNameChangedHandler}/>
+                        <View style={styles.button}>
+                            <Button title="Share Place!" onPress={this.placeAddedHandler}/>
+                        </View>
                     </View>
-                </View>
-            </ScrollView>
+                </ScrollView>
+            </SafeAreaView>
         );
     }
 };
@@ -81,6 +83,10 @@ const styles = StyleSheet.create({
     imagePreview: {
         width: '100%',
         height: '100%'
+    },
+    safeArea: {
+        flex: 1,
+        backgroundColor: 'white'
     }
 });
 

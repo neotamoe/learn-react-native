@@ -5,6 +5,7 @@ import AuthScreen from './src/screens/Auth/Auth';
 import FindPlaceScreen from './src/screens/FindPlace/FindPlace';
 import SharePlaceScreen from './src/screens/SharePlace/SharePlace';
 import PlaceDetailScreen from './src/screens/PlaceDetail/PlaceDetail';
+import SideDrawer from './src/screens/SideDrawer/SideDrawer';
 import configureStore from './src/store/configureStore';
 
 const store = configureStore();
@@ -28,6 +29,11 @@ Navigation.registerComponentWithRedux(
 Navigation.registerComponentWithRedux(
   "awesome-places.PlaceDetailScreen", 
   () => PlaceDetailScreen,
+  Provider,
+  store);
+Navigation.registerComponentWithRedux(
+  "awesome-places.SideDrawer", 
+  () => SideDrawer,
   Provider,
   store);
 

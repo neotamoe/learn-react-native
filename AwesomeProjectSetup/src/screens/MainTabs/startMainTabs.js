@@ -59,7 +59,7 @@ Navigation.setRoot({
                                 id: 'share',
                                 name: 'awesome-places.SharePlaceScreen',
                                 passProps: {
-                                  text: 'Share Place'
+                                  text: 'Share Place',
                                 },
                                 options: {
                                     bottomTab: {

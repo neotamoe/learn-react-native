@@ -36,8 +36,8 @@ Navigation.setRoot({
                               testID: 'FIRST_TAB_BAR_BUTTON'
                             },
                             topBar: {
-                                background: {
-                                    color: 'red'
+                                title: {
+                                  text: 'Find Place'
                                 },
                                 leftButtons: [
                                   {
@@ -68,8 +68,8 @@ Navigation.setRoot({
                                       testID: 'SECOND_TAB_BAR_BUTTON'
                                     },
                                     topBar: {
-                                        background: {
-                                            color: 'red'
+                                        title: {
+                                          text: 'Share Place'
                                         },
                                         leftButtons: [
                                           {

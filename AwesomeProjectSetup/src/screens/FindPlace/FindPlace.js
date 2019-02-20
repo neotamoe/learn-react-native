@@ -6,6 +6,11 @@ import {Navigation} from 'react-native-navigation';
 import List from '../../components/List/List';
 
 class FindPlaceScreen extends Component {
+    constructor(props) {
+        super(props);
+        Navigation.events().bindComponent(this);
+    }
+    
     itemSelectedHandler = (key) => {
         const selPlace = this.props.places.find(place => {
             return place.key == key;
@@ -28,6 +33,19 @@ class FindPlaceScreen extends Component {
                 }
             }            
         })
+    }
+
+    navigationButtonPressed({ buttonId }) {
+        if(buttonId === 'sideDrawerButton'){
+            (!this.isSideDrawerVisible) ? this.isSideDrawerVisible = true : this.isSideDrawerVisible = false
+            Navigation.mergeOptions(this.props.componentId, {
+                sideMenu: {
+                    left: {
+                        visible: this.isSideDrawerVisible,
+                    }
+                }
+            });
+        }
     }
 
     render() {

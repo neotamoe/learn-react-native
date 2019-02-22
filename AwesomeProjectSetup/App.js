@@ -45,20 +45,16 @@ Navigation.events().registerAppLaunchedListener(() => {
         children: [{
           component: {
             name: 'awesome-places.AuthScreen',
+            options: {
+              topBar: {
+                visible: true,
+                title: {
+                  text: "Welcome Login Screen",
+                },
+              }
+            }
           },    
         }],
-        options: {
-          topBar: {
-            title: {
-              // TODO: fix: this isn't showing on ios
-              text: "Welcome Login Screen",
-            },
-            visible: true,
-            background: {
-              color: 'green'
-            }
-          }
-        }
       }
     }
   });

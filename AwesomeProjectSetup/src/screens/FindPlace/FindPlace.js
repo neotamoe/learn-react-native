@@ -26,9 +26,6 @@ class FindPlaceScreen extends Component {
                         title: {
                             text: selPlace.name
                         },
-                        backButton: {
-                            title: 'Back'
-                        }
                     }
                 }
             }            

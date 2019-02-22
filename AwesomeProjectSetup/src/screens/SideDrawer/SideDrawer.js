@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, Button, StyleSheet, SafeAreaView,TouchableOpacity} from 'react-native';
+import {View, Text, Button, StyleSheet, SafeAreaView,TouchableOpacity, Platform} from 'react-native';
 import ButtonWithBackground from '../../components/UI/ButtonWithBackground/ButtonWithBackground';
 import Icon from 'react-native-vector-icons/Ionicons'
 
@@ -9,7 +9,7 @@ class SideDrawer extends Component {
             <SafeAreaView style={styles.safeArea}>
                 <View style={styles.container}>
                     <TouchableOpacity style={styles.sideDrawerItem}>
-                        <Icon style={styles.icon} name="ios-log-out" size={30} color="#bbb"/>
+                        <Icon style={styles.icon} name={Platform.OS === "android" ? "md-log-out" : "ios-log-out"} size={30} color="#bbb"/>
                         <Text>Sign Out</Text>
                     </TouchableOpacity>
                 </View>

@@ -16,7 +16,7 @@ Navigation.setRoot({
               component: {
                 id: 'sideDrawer',
                 name: 'awesome-places.SideDrawer',
-              }
+              },
             },
             center: {
               bottomTabs: {
@@ -34,8 +34,8 @@ Navigation.setRoot({
                             bottomTab: {
                               text: 'Find Place',
                               icon: sources[0],
-                              testID: 'FIRST_TAB_BAR_BUTTON'
-                            },
+                              testID: 'FIRST_TAB_BAR_BUTTON',
+                              selectedIconColor: 'orange'                            },
                             topBar: {
                                 title: {
                                   text: 'Find Place'
@@ -44,6 +44,7 @@ Navigation.setRoot({
                                   {
                                     id: 'sideDrawerButton',
                                     icon: sources[2],
+                                    color: 'orange'
                                   }
                                 ]
                             }
@@ -66,7 +67,8 @@ Navigation.setRoot({
                                     bottomTab: {
                                       text: 'Share Place',
                                       icon: sources[1],
-                                      testID: 'SECOND_TAB_BAR_BUTTON'
+                                      testID: 'SECOND_TAB_BAR_BUTTON',
+                                      selectedIconColor: 'orange',
                                     },
                                     topBar: {
                                         title: {
@@ -75,7 +77,8 @@ Navigation.setRoot({
                                         leftButtons: [
                                           {
                                             id: 'sideDrawerButton',
-                                            icon: sources[2]
+                                            icon: sources[2],
+                                            color: 'orange'
                                           }
                                         ]
                                     }

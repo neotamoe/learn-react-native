@@ -10,7 +10,30 @@ import ButtonWithBackground from '../../components/UI/ButtonWithBackground/Butto
 
 class AuthScreen extends Component {
     state = {
-        viewMode: Dimensions.get('window').height > 500 ? "portrait" : "landscape"
+        viewMode: Dimensions.get('window').height > 500 ? "portrait" : "landscape",
+        controls: {
+            email: {
+                value: "",
+                valid: false,
+                validationRules: {
+                    isEmail: true
+                }
+            },
+            password: {
+                value: "",
+                valid: false,
+                validationRules: {
+                    minLength: 6
+                }
+            },
+            confirmPassword: {
+                value: "",
+                valid: false,
+                validationRules: {
+                    equalTo: 'password'
+                }
+            },
+        }
     }
 
     constructor(props){
@@ -32,6 +55,20 @@ class AuthScreen extends Component {
         startMainTabs();
     }
 
+    updateInputState = (key, value) => {
+        this.setState(prevState => {
+            return {
+                controls: {
+                    ...prevState.controls,
+                    [key]: {
+                        ...prevState.controls[key],
+                        value: value
+                    }
+                }
+            }
+        })
+    }
+
     render () {
         var headingText = null;
         if(this.state.viewMode === 'portrait') {
@@ -47,13 +84,28 @@ class AuthScreen extends Component {
                     {headingText}
                     <ButtonWithBackground color="#29aaf4" onPress={() => alert('Hello')}>Switch to Login </ButtonWithBackground>
                     <View style={styles.inputContainer}>
-                        <DefaultInput style={styles.input} placeholder="Your Email Address" ></DefaultInput>
+                        <DefaultInput 
+                            style={styles.input} 
+                            placeholder="Your Email Address"
+                            value={this.state.controls.email.value} 
+                            onChangeTextHandler={(val)=> {this.updateInputState('email', val)}}>
+                        </DefaultInput>
                         <View style={this.state.viewMode === "portrait" ? styles.portraitPasswordContainer : styles.landscapePasswordContainer}>
                             <View style={this.state.viewMode === "portrait" ? styles.portraitPasswordWrapper : styles.landscapePasswordWrapper}>
-                                <DefaultInput style={styles.input} placeholder="Password" ></DefaultInput>
+                                <DefaultInput 
+                                    style={styles.input} 
+                                    placeholder="Password" 
+                                    value={this.state.controls.password.value}
+                                    onChangeTextHandler={(val)=> {this.updateInputState('password', val)}}>
+                                </DefaultInput>
                             </View>
                             <View style={this.state.viewMode === "portrait" ? styles.portraitPasswordWrapper : styles.landscapePasswordWrapper}>
-                                <DefaultInput style={styles.input} placeholder="Confirm Password" ></DefaultInput>
+                                <DefaultInput 
+                                    style={styles.input} 
+                                    placeholder="Confirm Password" 
+                                    value={this.state.controls.confirmPassword.value}
+                                    onChangeTextHandler={(val)=> {this.updateInputState('confirmPassword', val)}}>
+                                </DefaultInput>
                             </View>
                         </View>
                     </View>

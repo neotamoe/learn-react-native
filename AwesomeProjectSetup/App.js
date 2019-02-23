@@ -39,13 +39,6 @@ Navigation.registerComponentWithRedux(
 
 // Start an App
 Navigation.events().registerAppLaunchedListener(() => {
-  // TODO:  Fix this, can't use landscape on android despite trying this
-  // Navigation.setDefaultOptions({
-  //   layout: {
-  //     orientation: ['landscape', 'portrait', 'sensorLandscape'] // An array of supported orientations
-  //   },
-  // });
-
   Navigation.setRoot({
     root: {
       stack: {

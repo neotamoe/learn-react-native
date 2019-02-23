@@ -8,7 +8,8 @@ import List from '../../components/List/List';
 class FindPlaceScreen extends Component {
     state = {
         placesLoaded: false,
-        removeAnimation: new Animated.Value(1)
+        removeAnimation: new Animated.Value(1),
+        placesAnimation: new Animated.Value(0),
     }
 
     constructor(props) {
@@ -52,7 +53,20 @@ class FindPlaceScreen extends Component {
 
     placesSearchHandler = () => {
         Animated.timing(this.state.removeAnimation, {
-            toValue: 0,
+            toValue: 0,  // transparent
+            duration: 500,
+            useNativeDriver: true
+        }).start(()=> {
+            this.setState({
+                placesLoaded: true,
+            });
+            this.placesLoadedHandler();
+        });
+    }
+
+    placesLoadedHandler = () => {
+        Animated.timing(this.state.placesAnimation, {
+            toValue: 1,  // opaque
             duration: 500,
             useNativeDriver: true
         }).start();
@@ -79,7 +93,11 @@ class FindPlaceScreen extends Component {
 
         if(this.state.placesLoaded){
             content = (
-                <List places={this.props.places} onItemSelected={this.itemSelectedHandler}/>
+                <Animated.View style={{
+                    opacity: this.state.placesAnimation,  // fade in
+                }}>
+                    <List places={this.props.places} onItemSelected={this.itemSelectedHandler}/>
+                </Animated.View>
             );
         }
         return (

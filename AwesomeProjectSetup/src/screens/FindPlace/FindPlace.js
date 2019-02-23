@@ -1,11 +1,15 @@
 import React, {Component} from 'react';
-import {View, SafeAreaView, StyleSheet} from 'react-native';
+import {View, SafeAreaView, StyleSheet, Text, TouchableOpacity} from 'react-native';
 import {connect} from 'react-redux';
 import {Navigation} from 'react-native-navigation';
 
 import List from '../../components/List/List';
 
 class FindPlaceScreen extends Component {
+    state = {
+        placesLoaded: false
+    }
+
     constructor(props) {
         super(props);
         Navigation.events().bindComponent(this);
@@ -45,13 +49,30 @@ class FindPlaceScreen extends Component {
         }
     }
 
+    placesSearchHandler = () => {
+        this.setState({
+            placesLoaded: true
+        })
+    }
+
     render() {
+        let content = (
+        <TouchableOpacity onPress={this.placesSearchHandler}>
+            <View style={styles.searchButton}>
+                <Text style={styles.searchButtonText}>Find Places</Text>
+            </View>
+        </TouchableOpacity>);
+
+        if(this.state.placesLoaded){
+            content = (
+                <List places={this.props.places} onItemSelected={this.itemSelectedHandler}/>
+            );
+        }
         return (
             <SafeAreaView style={styles.safeArea}>
-
-            <View>
-                <List places={this.props.places} onItemSelected={this.itemSelectedHandler}/>
-            </View>
+                <View style={this.state.placesLoaded ? null : styles.buttonContainer}>
+                    {content}
+                </View>
             </SafeAreaView>
         );
     }
@@ -61,6 +82,22 @@ const styles = StyleSheet.create({
     safeArea: {
         flex: 1,
         backgroundColor: 'white'
+    },
+    buttonContainer: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    searchButton: {
+        borderWidth: 3,
+        borderColor: 'orange',
+        borderRadius: 50,
+        padding: 20,
+    },
+    searchButtonText: {
+        color: 'orange',
+        fontWeight: 'bold',
+        fontSize: 26
     }
 })
 

@@ -135,7 +135,8 @@ class AuthScreen extends Component {
                         value={this.state.controls.confirmPassword.value}
                         onChangeText={ val => this.updateInputState("confirmPassword", val)}
                         touched={this.state.controls.confirmPassword.touched}
-                        valid={this.state.controls.confirmPassword.valid}>
+                        valid={this.state.controls.confirmPassword.valid}
+                        secureTextEntry>
                     </DefaultInput>
                 </View>
             );
@@ -157,7 +158,10 @@ class AuthScreen extends Component {
                             value={this.state.controls.email.value} 
                             onChangeText={val => this.updateInputState("email", val)}
                             touched={this.state.controls.email.touched}
-                            valid={this.state.controls.email.valid}>
+                            valid={this.state.controls.email.valid}
+                            autoCapitalize="none"
+                            autoCorrect={false}
+                            keyboardType="email-address">
                         </DefaultInput>
                         <View style={this.state.viewMode === "portrait" || this.state.authMode === "login" ? styles.portraitPasswordContainer : styles.landscapePasswordContainer}>
                             <View style={this.state.viewMode === "portrait" | this.state.authMode === "login" ? styles.portraitPasswordWrapper : styles.landscapePasswordWrapper}>
@@ -167,7 +171,8 @@ class AuthScreen extends Component {
                                     value={this.state.controls.password.value}
                                     onChangeText={ val => this.updateInputState("password", val)}
                                     touched={this.state.controls.password.touched}
-                                    valid={this.state.controls.password.valid}>
+                                    valid={this.state.controls.password.valid}
+                                    secureTextEntry>
                                 </DefaultInput>
                             </View>
                             {confirmPasswordControl}

@@ -7,6 +7,7 @@ import HeadingText from '../../components/UI/HeadingText/HeadingText';
 import MainText from '../../components/UI/MainText/MainText';
 import backgroundImage from '../../assets/background.jpg';
 import ButtonWithBackground from '../../components/UI/ButtonWithBackground/ButtonWithBackground';
+import validate from '../../utility/validation';
 
 class AuthScreen extends Component {
     state = {
@@ -30,7 +31,7 @@ class AuthScreen extends Component {
                 value: "",
                 valid: false,
                 validationRules: {
-                    equalTo: 'password'
+                    equalTo: "password"
                 }
             },
         }
@@ -56,14 +57,44 @@ class AuthScreen extends Component {
     }
 
     updateInputState = (key, value) => {
-        this.setState(prevState => {
+        let connectedValue = {};
+        if (this.state.controls[key].validationRules.equalTo) {
+            console.log('hit the right if block');
+            const equalControl = this.state.controls[key].validationRules.equalTo;
+            console.log('equalControl: ', equalControl);
+            const equalValue = this.state.controls[equalControl].value;
+            console.log('equalValue: ', equalValue);
+            connectedValue = {
+                ...connectedValue,
+                equalTo: equalValue
+            };
+        }
+        if(key === "password"){
+            connectedValue = {
+                ...connectedValue,
+                equalTo: value
+            };
+        }
+        this.setState( prevState => {
             return {
                 controls: {
                     ...prevState.controls,
+                    confirmPassword: {
+                        ...prevState.controls.confirmPassword,
+                        valid: 
+                            key === "password"
+                            ? validate(
+                                prevState.controls.confirmPassword.value,
+                                prevState.controls.confirmPassword.validationRules,
+                                connectedValue
+                                )
+                            : prevState.controls.confirmPassword.valid
+                    },
                     [key]: {
                         ...prevState.controls[key],
-                        value: value
-                    }
+                        value: value,
+                        valid: validate(value, prevState.controls[key].validationRules, connectedValue),
+                    },
                 }
             }
         })
@@ -88,7 +119,7 @@ class AuthScreen extends Component {
                             style={styles.input} 
                             placeholder="Your Email Address"
                             value={this.state.controls.email.value} 
-                            onChangeTextHandler={(val)=> {this.updateInputState('email', val)}}>
+                            onChangeText={val => this.updateInputState("email", val)}>
                         </DefaultInput>
                         <View style={this.state.viewMode === "portrait" ? styles.portraitPasswordContainer : styles.landscapePasswordContainer}>
                             <View style={this.state.viewMode === "portrait" ? styles.portraitPasswordWrapper : styles.landscapePasswordWrapper}>
@@ -96,7 +127,7 @@ class AuthScreen extends Component {
                                     style={styles.input} 
                                     placeholder="Password" 
                                     value={this.state.controls.password.value}
-                                    onChangeTextHandler={(val)=> {this.updateInputState('password', val)}}>
+                                    onChangeText={ val => this.updateInputState("password", val)}>
                                 </DefaultInput>
                             </View>
                             <View style={this.state.viewMode === "portrait" ? styles.portraitPasswordWrapper : styles.landscapePasswordWrapper}>
@@ -104,7 +135,7 @@ class AuthScreen extends Component {
                                     style={styles.input} 
                                     placeholder="Confirm Password" 
                                     value={this.state.controls.confirmPassword.value}
-                                    onChangeTextHandler={(val)=> {this.updateInputState('confirmPassword', val)}}>
+                                    onChangeText={ val => this.updateInputState("confirmPassword", val)}>
                                 </DefaultInput>
                             </View>
                         </View>

@@ -7,6 +7,7 @@ import MainText from '../../components/UI/MainText/MainText';
 import HeadingText from '../../components/UI/HeadingText/HeadingText';
 import PickImage from '../../components/PickImage/PickImage';
 import PickLocation from '../../components/PickLocation/PickLocation';
+import validate from '../../utility/validation';
 
 import {addPlace} from '../../store/actions/index';
 
@@ -17,12 +18,30 @@ class SharePlaceScreen extends Component {
     }
 
     state = {
-        placeName: ""
+        // placeName: "",
+        // controls: {
+        //     place: {
+        //         value: "",
+        //         valid: false,
+        //         validationRules: {
+        //             isEmail: true
+        //         },
+        //         touched: false
+        //     }
+        // }
+        placeName: {
+            value: "",
+            valid: false,
+            validationRules: {
+                validString: true
+            },
+            touched: false
+        }
     }
 
     placeAddedHandler = () => {
         if(this.state.placeName.trim()!==""){
-            this.props.onAddPlace(this.state.placeName);
+            this.props.onAddPlace(this.state.placeName.value);
         }
     }
 
@@ -39,11 +58,25 @@ class SharePlaceScreen extends Component {
         }
     }
 
-    placeNameChangedHandler = val => {
-        this.setState({
-            placeName: val
+    // placeNameChangedHandler = val => {
+    //     this.setState({
+    //         placeName: val
+    //     })
+    // }
+
+    updateInputState = (value) => {
+        this.setState( prevState => {
+            return {
+                placeName: {
+                    ...prevState.placeName,
+                    value: value,
+                    valid: validate(value, this.state.placeName.validationRules, {}),
+                    touched: true
+                },
+            }
         })
     }
+
     render() {
         return (
             <SafeAreaView style={styles.safeArea}>
@@ -54,9 +87,18 @@ class SharePlaceScreen extends Component {
                         </MainText>
                         <PickImage />
                         <PickLocation />
-                        <PlaceInput placeName={this.state.placeName} onChangeText={this.placeNameChangedHandler}/>
+                        <PlaceInput 
+                            placeName={this.state.placeName.value} 
+                            touched={this.state.placeName.touched}
+                            valid={this.state.placeName.valid}
+                            // onChangeText={this.placeNameChangedHandler}
+                            onChangeText={ val => this.updateInputState(val)}
+                            />
                         <View style={styles.button}>
-                            <Button title="Share Place!" onPress={this.placeAddedHandler}/>
+                            <Button 
+                                title="Share Place!" 
+                                onPress={this.placeAddedHandler}
+                                disabled={!this.state.placeName.valid}/>
                         </View>
                     </View>
                 </ScrollView>

@@ -1,8 +1,6 @@
 const validate = (val, rules, connectedValue) => {
     let isValid = true;
-    console.log('rules in validate: ', rules);
     for (let rule in rules) {
-        console.log('rule in switch is: ', rule)
         switch(rule) {
             case "isEmail": 
                 isValid = isValid && emailValidator(val);
@@ -11,9 +9,11 @@ const validate = (val, rules, connectedValue) => {
                 isValid = isValid && minLengthValidator(val, rules[rule]);
                 break;
             case "equalTo": 
-                console.log(rule);
-                console.log('connected value in confirm password: ' + connectedValue);
                 isValid = isValid && passwordValidator(val, connectedValue[rule]);
+                break;
+            case "validString": 
+                isValid = isValid && validStringValidator(val);
+                console.log('isValid in switch: ', isValid);
                 break;
             default: 
                 isValid = true;
@@ -31,8 +31,12 @@ const minLengthValidator = (val, minLength) => {
 };
 
 const passwordValidator = (val, checkValue) => {
-    console.log("val: " + val + " checkValue: " + checkValue)
     return val === checkValue;
 };
+
+const validStringValidator = val => {
+    console.log('value in validStringValidator: ', val)
+    return val.trim() !== "";
+}
 
 export default validate;

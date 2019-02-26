@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import {View, Text, Button, StyleSheet, ScrollView, Image, SafeAreaView} from 'react-native';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview';
+
 import { connect } from 'react-redux';
 import {Navigation} from 'react-native-navigation';
 import PlaceInput from '../../components/PlaceInput/PlaceInput';
@@ -63,8 +65,7 @@ class SharePlaceScreen extends Component {
     render() {
         return (
             <SafeAreaView style={styles.safeArea}>
-                <ScrollView>
-                    <View style={styles.container}>
+                    <KeyboardAwareScrollView style={styles.container} contentContainerStyle={{alignItems: 'center'}}>
                         <MainText>
                             <HeadingText>Share a Place With Us!</HeadingText>
                         </MainText>
@@ -80,8 +81,7 @@ class SharePlaceScreen extends Component {
                                 onPress={this.placeAddedHandler}
                                 disabled={!this.state.placeName.valid}/>
                         </View>
-                    </View>
-                </ScrollView>
+                    </KeyboardAwareScrollView>
             </SafeAreaView>
         );
     }
@@ -90,7 +90,7 @@ class SharePlaceScreen extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center'
+        // alignItems: 'center'
     },
     placeholder: { 
         borderWidth: 1,

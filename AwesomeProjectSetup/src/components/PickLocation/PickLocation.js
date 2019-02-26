@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {View, Text, Button, StyleSheet, Dimensions} from 'react-native';
-import MapView from 'react-native-maps';
+import MapView, { Marker } from 'react-native-maps';
 
 class PickLocation extends Component {
     state = {
@@ -9,14 +9,40 @@ class PickLocation extends Component {
             longitude: -93.2650,
             latitudeDelta: 0.0122,
             longitudeDelta: Dimensions.get("window").width / Dimensions.get("window").height * 0.0122,
-        }
+        },
+        locationChosen: false
     }
+
+    pickLocationHandler = (event) => {
+        let latLong = event.nativeEvent.coordinate;
+        this.setState(prevState => {
+            return {
+                focusedLocation: {
+                    ...prevState.focusedLocation,
+                    latitude: latLong.latitude,
+                    longitude: latLong.longitude    
+                },
+                locationChosen: true
+            }
+        })
+    }
+
     render() {
+        let marker = null;
+        if(this.state.locationChosen){
+            marker = (
+                <MapView.Marker coordinate={this.state.focusedLocation} />
+            );
+        }
         return (
             <View style={styles.container}>
                 <MapView 
                     initialRegion={this.state.focusedLocation}
-                    style={styles.map}/>
+                    region={this.state.focusedLocation}
+                    style={styles.map}
+                    onPress={this.pickLocationHandler}>
+                    {marker}
+                </MapView>
                 <View style={styles.button}>
                     <Button title="Locate Me" onPress={() => alert('Pick Location')}/>
                 </View>

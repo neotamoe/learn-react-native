@@ -35,7 +35,6 @@ const passwordValidator = (val, checkValue) => {
 };
 
 const validStringValidator = val => {
-    console.log('value in validStringValidator: ', val)
     return val.trim() !== "";
 }
 

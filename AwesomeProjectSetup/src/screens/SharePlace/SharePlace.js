@@ -18,17 +18,6 @@ class SharePlaceScreen extends Component {
     }
 
     state = {
-        // placeName: "",
-        // controls: {
-        //     place: {
-        //         value: "",
-        //         valid: false,
-        //         validationRules: {
-        //             isEmail: true
-        //         },
-        //         touched: false
-        //     }
-        // }
         placeName: {
             value: "",
             valid: false,
@@ -40,7 +29,7 @@ class SharePlaceScreen extends Component {
     }
 
     placeAddedHandler = () => {
-        if(this.state.placeName.trim()!==""){
+        if(this.state.placeName.valid){
             this.props.onAddPlace(this.state.placeName.value);
         }
     }
@@ -58,19 +47,13 @@ class SharePlaceScreen extends Component {
         }
     }
 
-    // placeNameChangedHandler = val => {
-    //     this.setState({
-    //         placeName: val
-    //     })
-    // }
-
     updateInputState = (value) => {
         this.setState( prevState => {
             return {
                 placeName: {
                     ...prevState.placeName,
                     value: value,
-                    valid: validate(value, this.state.placeName.validationRules, {}),
+                    valid: validate(value, this.state.placeName.validationRules),
                     touched: true
                 },
             }
@@ -88,10 +71,7 @@ class SharePlaceScreen extends Component {
                         <PickImage />
                         <PickLocation />
                         <PlaceInput 
-                            placeName={this.state.placeName.value} 
-                            touched={this.state.placeName.touched}
-                            valid={this.state.placeName.valid}
-                            // onChangeText={this.placeNameChangedHandler}
+                            placeData={this.state.placeName}
                             onChangeText={ val => this.updateInputState(val)}
                             />
                         <View style={styles.button}>

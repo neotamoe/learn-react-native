@@ -4,6 +4,7 @@ import {Navigation} from 'react-native-navigation';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {connect} from 'react-redux';
 import {deletePlace} from '../../store/actions/index';
+import MapView from 'react-native-maps';
 
 class PlaceDetail extends Component {
     state = {
@@ -35,12 +36,22 @@ class PlaceDetail extends Component {
         if(this.state.viewMode === 'portrait') {
             placeText = (<Text style={styles.placeName}>{this.props.selectedPlace.name}</Text>);
         }
+        var regionCoords = {
+            ...this.props.selectedPlace.location,
+            latitudeDelta: 0.0122,
+            longitudeDelta: Dimensions.get("window").width / Dimensions.get("window").height * 0.0122,
+        }
         return (
             <View style={this.state.viewMode === "portrait" ? styles.portraitModalContainer : styles.landscapeModalContainer}>
                 <Image 
                     source={this.props.selectedPlace.image} 
                     style={this.state.viewMode === "portrait" ? styles.portraitPlaceImage : styles.landscapePlaceImage}>
                 </Image>
+                <MapView
+                    region={regionCoords}
+                    style={styles.map}>
+                    <MapView.Marker coordinate={this.props.selectedPlace.location}/>
+                </MapView>
                 {placeText}
                 <View>
                     <TouchableOpacity onPress={this.placeDeletedHandler}>
@@ -83,6 +94,11 @@ const styles = StyleSheet.create({
     },
     landscapeDeleteButton: {
         // alignItems: "center",
+    },
+    map: { 
+        width: "100%",
+        height: 250,
+        marginTop: 22
     },
 });
 

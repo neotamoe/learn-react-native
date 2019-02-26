@@ -20,20 +20,24 @@ class SharePlaceScreen extends Component {
     }
 
     state = {
-        placeName: {
-            value: "",
-            valid: false,
-            validationRules: {
-                validString: true
+        controls: {
+            placeName: {
+                value: "",
+                valid: false,
+                validationRules: {
+                    validString: true
+                },
+                touched: false
             },
-            touched: false
+            location: {
+                value: null,
+                valid: false
+            }    
         }
     }
 
     placeAddedHandler = () => {
-        if(this.state.placeName.valid){
-            this.props.onAddPlace(this.state.placeName.value);
-        }
+        this.props.onAddPlace(this.state.controls.placeName.value, this.state.controls.location.value);
     }
 
     navigationButtonPressed({ buttonId }) {
@@ -52,16 +56,32 @@ class SharePlaceScreen extends Component {
     updateInputState = (value) => {
         this.setState( prevState => {
             return {
-                placeName: {
-                    ...prevState.placeName,
-                    value: value,
-                    valid: validate(value, this.state.placeName.validationRules),
-                    touched: true
-                },
+                controls: {
+                    ...prevState.controls,
+                    placeName: {
+                        ...prevState.controls.placeName,
+                        value: value,
+                        valid: validate(value, prevState.controls.placeName.validationRules),
+                        touched: true
+                    },    
+                }
             }
         })
     }
 
+    locationPickedHandler = location => {
+        this.setState(prevState => {
+            return {
+                controls: {
+                    ...prevState.controls,
+                    location: {
+                        value: location,
+                        valid: true
+                    }
+                }
+            }
+        })
+    }
     render() {
         return (
             <SafeAreaView style={styles.safeArea}>
@@ -70,16 +90,16 @@ class SharePlaceScreen extends Component {
                             <HeadingText>Share a Place With Us!</HeadingText>
                         </MainText>
                         <PickImage />
-                        <PickLocation />
+                        <PickLocation onLocationPick={this.locationPickedHandler} />
                         <PlaceInput 
-                            placeData={this.state.placeName}
+                            placeData={this.state.controls.placeName}
                             onChangeText={ val => this.updateInputState(val)}
                             />
                         <View style={styles.button}>
                             <Button 
                                 title="Share Place!" 
                                 onPress={this.placeAddedHandler}
-                                disabled={!this.state.placeName.valid}/>
+                                disabled={!this.state.controls.placeName.valid || !this.state.controls.location.valid}/>
                         </View>
                     </KeyboardAwareScrollView>
             </SafeAreaView>
@@ -118,7 +138,7 @@ const mapStateToProps = {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onAddPlace: (placeName) => dispatch(addPlace(placeName))
+        onAddPlace: (placeName, location) => dispatch(addPlace(placeName, location))
     }
 }
 

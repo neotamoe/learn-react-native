@@ -49,7 +49,7 @@ class PlaceDetail extends Component {
                 </Image>
                 <MapView
                     region={regionCoords}
-                    style={styles.map}>
+                    style={this.state.viewMode === "portrait" ? styles.portraitMap : styles.landscapeMap}>
                     <MapView.Marker coordinate={this.props.selectedPlace.location}/>
                 </MapView>
                 {placeText}
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
         height: 200
     },
     landscapePlaceImage: {
-        width: "80%",
+        width: "40%",
         height: 200
     },
     placeName: {
@@ -95,10 +95,14 @@ const styles = StyleSheet.create({
     landscapeDeleteButton: {
         // alignItems: "center",
     },
-    map: { 
+    portraitMap: { 
         width: "100%",
         height: 250,
         marginTop: 22
+    },
+    landscapeMap: { 
+        width: "45%",
+        height: 200,
     },
 });
 

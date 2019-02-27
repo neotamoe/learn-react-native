@@ -2,8 +2,16 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Awesome Places would like to use your microphone (for videos)</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Awesome Places would like to use your camera</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Awesome Places would like to save photos to your photo gallery</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Awesome Places would like to access your photo gallery</string>
 	<key>NSLocationUsageDescription</key>
-	<string>Let&apos;s share YOUR place!</string>
+	<string>Awesome Places would like to access your location.  Let&apos;s share YOUR place!</string>
 	<key>LSApplicationCategoryType</key>
 	<string></string>
 	<key>UIAppFonts</key>

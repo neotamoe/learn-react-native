@@ -9,7 +9,7 @@ class PickImage extends Component {
     }
 
     pickImageHandler = () => {
-        ImagePicker.showImagePicker({title: "Pick an Image"}, res => {
+        ImagePicker.showImagePicker({title: 'Pick an Image'}, res => {
             if (res.didCancel){
                 console.log("user cancelled");
             } else if (res.error){
@@ -17,7 +17,10 @@ class PickImage extends Component {
             } else {
                 this.setState({
                     pickedImage: {uri: res.uri}
-                })
+                });
+                this.props.onImagePick({uri: res.uri, base64: res.data});
+                // base64 returns string so you can store it in db,
+                // if you want to turn off, add noData: true to options object (the first param of showImagePicker)
             }
         });
     }

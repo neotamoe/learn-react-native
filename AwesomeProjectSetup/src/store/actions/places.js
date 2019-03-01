@@ -1,4 +1,4 @@
-import { ADD_PLACE, DELETE_PLACE } from './actionTypes';
+import { ADD_PLACE, DELETE_PLACE, SET_PLACES } from './actionTypes';
 import { uiStartLoading, uiStopLoading } from './ui';
 
 export const addPlace = (placeName, location, image) => { 
@@ -12,9 +12,10 @@ export const addPlace = (placeName, location, image) => {
         })
         .catch(err => {
             console.log(err);
+            alert("Something went wrong; please try again.");
             dispatch(uiStopLoading());
         })
-        .then(res => res.json())
+        .then(res => res.json())  // this only catches missing network connectivity errors; doesn't catch 4xx or 5xx errors
         .then(parsedRes => {
             const placeData = {
                 name: placeName, 
@@ -28,6 +29,7 @@ export const addPlace = (placeName, location, image) => {
         })
         .catch(err => {
             console.log(err);
+            alert("Something went wrong; please try again.");
             dispatch(uiStopLoading());
         })
         .then(res => res.json())  // this is needed when using fetch
@@ -43,3 +45,34 @@ export const deletePlace = (key) => {
         placeKey: key
     };
 };
+
+export const getPlaces = () => { 
+    return dispatch => {
+        fetch("https://awesome-places-db.firebaseio.com/places.json")
+        .catch(err => {
+            alert("Something went wrong, sorry!");
+            console.log(err);
+        })
+        .then(res => res.json())
+        .then(parsedRes => {
+            const places = [];
+            for (let key in parsedRes) {
+                places.push({
+                    ...parsedRes[key],
+                    image: {
+                        uri: parsedRes[key].image
+                    },
+                    key: key
+                })
+            }
+            dispatch(setPlaces(places))
+        })
+    }
+};
+
+export const setPlaces = places => {
+    return {
+        places: places,
+        type: SET_PLACES
+    }
+}

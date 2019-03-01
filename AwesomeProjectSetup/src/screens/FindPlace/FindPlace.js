@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import {Navigation} from 'react-native-navigation';
 
 import List from '../../components/List/List';
+import { getPlaces } from '../../store/actions/index';
 
 class FindPlaceScreen extends Component {
     state = {
@@ -15,6 +16,10 @@ class FindPlaceScreen extends Component {
     constructor(props) {
         super(props);
         Navigation.events().bindComponent(this);
+    }
+
+    componentDidMount = () => {
+        this.props.onLoadPlaces();
     }
     
     itemSelectedHandler = (key) => {
@@ -139,4 +144,10 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps)(FindPlaceScreen);
+const mapDispatchToProps = dispatch => {
+    return {
+        onLoadPlaces: () => dispatch(getPlaces())
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(FindPlaceScreen);

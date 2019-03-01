@@ -1,16 +1,19 @@
 import { ADD_PLACE, DELETE_PLACE } from './actionTypes';
+import { uiStartLoading, uiStopLoading } from './ui';
 
 export const addPlace = (placeName, location, image) => { 
     return dispatch => {
-        console.log('image in addPlace: ', image);  // this is ok
-        // return fetch("https://console.firebase.google.com/project/awesome-places-db/overview",{
+        dispatch(uiStartLoading());
         return fetch("https://us-central1-awesome-places-db.cloudfunctions.net/storeImage",{
             method: 'POST',
             body: JSON.stringify({
                 image: image.base64
             })
         })
-        .catch(err => console.log(err))
+        .catch(err => {
+            console.log(err);
+            dispatch(uiStopLoading());
+        })
         .then(res => res.json())
         .then(parsedRes => {
             console.log(parsedRes);
@@ -24,10 +27,14 @@ export const addPlace = (placeName, location, image) => {
                 body: JSON.stringify(placeData)
             });
         })
-        .catch(err => console.log(err))
+        .catch(err => {
+            console.log(err);
+            dispatch(uiStopLoading());
+        })
         .then(res => res.json())  // this is needed when using fetch
         .then(parsedRes => {
-            console.log(parsedRes)
+            console.log(parsedRes);
+            dispatch(uiStopLoading());
         })
     }
 };

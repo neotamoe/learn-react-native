@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, Button, StyleSheet, ScrollView, Image, SafeAreaView} from 'react-native';
+import {View, Text, Button, StyleSheet, SafeAreaView, ActivityIndicator} from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview';
 
 import { connect } from 'react-redux';
@@ -105,6 +105,19 @@ class SharePlaceScreen extends Component {
     }
 
     render() {
+        let submitButton = 
+            <Button 
+                title="Share Place!" 
+                onPress={this.placeAddedHandler}
+                disabled={
+                    !this.state.controls.placeName.valid 
+                    || !this.state.controls.location.valid 
+                    || !this.state.controls.image.valid}/>;
+
+        if (this.props.isLoading) {
+            submitButton = <ActivityIndicator />;
+        }
+
         return (
             <SafeAreaView style={styles.safeArea}>
                     <KeyboardAwareScrollView style={styles.container} contentContainerStyle={{alignItems: 'center'}}>
@@ -118,13 +131,7 @@ class SharePlaceScreen extends Component {
                             onChangeText={ val => this.updateInputState(val)}
                             />
                         <View style={styles.button}>
-                            <Button 
-                                title="Share Place!" 
-                                onPress={this.placeAddedHandler}
-                                disabled={
-                                    !this.state.controls.placeName.valid 
-                                    || !this.state.controls.location.valid 
-                                    || !this.state.controls.image.valid}/>
+                            {submitButton}
                         </View>
                     </KeyboardAwareScrollView>
             </SafeAreaView>
@@ -157,8 +164,10 @@ const styles = StyleSheet.create({
     }
 });
 
-const mapStateToProps = {
-
+const mapStateToProps = state => {
+    return {
+        isLoading: state.ui.isLoading,
+    }
 }
 
 const mapDispatchToProps = dispatch => {
@@ -167,4 +176,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(null, mapDispatchToProps)(SharePlaceScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(SharePlaceScreen);

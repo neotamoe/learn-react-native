@@ -16,7 +16,6 @@ export const addPlace = (placeName, location, image) => {
         })
         .then(res => res.json())
         .then(parsedRes => {
-            console.log(parsedRes);
             const placeData = {
                 name: placeName, 
                 location: location,
@@ -33,7 +32,6 @@ export const addPlace = (placeName, location, image) => {
         })
         .then(res => res.json())  // this is needed when using fetch
         .then(parsedRes => {
-            console.log(parsedRes);
             dispatch(uiStopLoading());
         })
     }

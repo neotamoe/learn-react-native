@@ -13,7 +13,6 @@ const validate = (val, rules, connectedValue) => {
                 break;
             case "validString": 
                 isValid = isValid && validStringValidator(val);
-                console.log('isValid in switch: ', isValid);
                 break;
             default: 
                 isValid = true;

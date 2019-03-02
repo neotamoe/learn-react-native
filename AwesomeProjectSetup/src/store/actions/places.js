@@ -1,4 +1,4 @@
-import { ADD_PLACE, DELETE_PLACE, SET_PLACES } from './actionTypes';
+import { SET_PLACES, REMOVE_PLACE } from './actionTypes';
 import { uiStartLoading, uiStopLoading } from './ui';
 
 export const addPlace = (placeName, location, image) => { 
@@ -22,6 +22,7 @@ export const addPlace = (placeName, location, image) => {
                 location: location,
                 image: parsedRes.imageUrl
             };
+            console.log('placeData', placeData);
             return fetch("https://awesome-places-db.firebaseio.com/places.json", {
                 method: 'POST',
                 body: JSON.stringify(placeData)
@@ -40,10 +41,20 @@ export const addPlace = (placeName, location, image) => {
 };
 
 export const deletePlace = (key) => { 
-    return {
-        type: DELETE_PLACE,
-        placeKey: key
-    };
+    return dispatch => {
+        dispatch(removePlace(key));
+        return fetch("https://awesome-places-db.firebaseio.com/places/"+key+".json", {
+            method: 'DELETE'
+        })
+        .catch(err => {
+            console.log(err);
+            alert("Something went wrong; please try again.");
+        })
+        .then(res => res.json())  // this only catches missing network connectivity errors; doesn't catch 4xx or 5xx errors
+        .then(parsedRes => {
+            console.log("Done!");  
+        })
+    }
 };
 
 export const getPlaces = () => { 
@@ -74,5 +85,12 @@ export const setPlaces = places => {
     return {
         places: places,
         type: SET_PLACES
+    }
+}
+
+export const removePlace = key => {
+    return {
+        key: key,
+        type: REMOVE_PLACE
     }
 }

@@ -58,3 +58,6 @@ buck-out/
 # firebase service account
 functions/awesome-places.json
 functions/node_modules/*
+
+#firebase auth key
+authKey.js

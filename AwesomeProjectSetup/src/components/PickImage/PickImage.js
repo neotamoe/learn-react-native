@@ -5,7 +5,9 @@ import ImagePicker from 'react-native-image-picker';
 
 class PickImage extends Component {
     state = {
-        pickedImage: null
+        pickedImage: {
+            uri: null
+        }
     }
 
     pickImageHandler = () => {

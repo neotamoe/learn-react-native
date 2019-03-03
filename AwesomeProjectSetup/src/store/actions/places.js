@@ -1,14 +1,20 @@
 import { SET_PLACES, REMOVE_PLACE } from './actionTypes';
-import { uiStartLoading, uiStopLoading } from './ui';
+import { uiStartLoading, uiStopLoading, authGetToken } from './index';
 
 export const addPlace = (placeName, location, image) => { 
     return dispatch => {
         dispatch(uiStartLoading());
-        return fetch("https://us-central1-awesome-places-db.cloudfunctions.net/storeImage",{
-            method: 'POST',
-            body: JSON.stringify({
-                image: image.base64
-            })
+        dispatch(authGetToken())
+        .catch(() => {
+            alert("No valid token found!")
+        })
+        .then(token => {
+            return fetch("https://us-central1-awesome-places-db.cloudfunctions.net/storeImage",{
+                method: 'POST',
+                body: JSON.stringify({
+                    image: image.base64
+                })
+            })    
         })
         .catch(err => {
             console.log(err);
@@ -42,42 +48,54 @@ export const addPlace = (placeName, location, image) => {
 
 export const deletePlace = (key) => { 
     return dispatch => {
-        dispatch(removePlace(key));
-        return fetch("https://awesome-places-db.firebaseio.com/places/"+key+".json", {
-            method: 'DELETE'
-        })
-        .catch(err => {
-            console.log(err);
-            alert("Something went wrong; please try again.");
-        })
-        .then(res => res.json())  // this only catches missing network connectivity errors; doesn't catch 4xx or 5xx errors
-        .then(parsedRes => {
-            console.log("Done!");  
-        })
+        dispatch(authGetToken())
+            .catch(() => {
+                alert("No valid token found!")
+            })
+            .then(token => {
+                dispatch(removePlace(key));
+                return fetch("https://awesome-places-db.firebaseio.com/places/"+key+".json?auth="+token, {
+                    method: 'DELETE'
+                })
+            })            
+            .then(res => res.json())  // this only catches missing network connectivity errors; doesn't catch 4xx or 5xx errors
+            .then(parsedRes => {
+                console.log("Done!");  
+            })
+            .catch(err => {
+                console.log(err);
+                alert("Something went wrong; please try again.");
+            })
     }
 };
 
 export const getPlaces = () => { 
     return dispatch => {
-        fetch("https://awesome-places-db.firebaseio.com/places.json")
-        .catch(err => {
-            alert("Something went wrong, sorry!");
-            console.log(err);
-        })
-        .then(res => res.json())
-        .then(parsedRes => {
-            const places = [];
-            for (let key in parsedRes) {
-                places.push({
-                    ...parsedRes[key],
-                    image: {
-                        uri: parsedRes[key].image
-                    },
-                    key: key
-                })
-            }
-            dispatch(setPlaces(places))
-        })
+        dispatch(authGetToken())
+            .then(token => {
+                return fetch("https://awesome-places-db.firebaseio.com/places.json?auth="+token)
+            })
+            .catch(() => {
+                alert("No valid token found!")
+            })
+            .then(res => res.json())
+            .then(parsedRes => {
+                const places = [];
+                for (let key in parsedRes) {
+                    places.push({
+                        ...parsedRes[key],
+                        image: {
+                            uri: parsedRes[key].image
+                        },
+                        key: key
+                    })
+                }
+                dispatch(setPlaces(places))
+            })
+            .catch(err => {
+                alert("Something went wrong, sorry!");
+                console.log(err);
+            })
     }
 };
 

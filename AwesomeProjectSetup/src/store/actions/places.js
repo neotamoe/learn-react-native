@@ -78,7 +78,6 @@ export const getPlaces = () => {
     return dispatch => {
         dispatch(authGetToken())
             .then(token => {
-                console.log('token in getPlaces: ', token);
                 return fetch("https://awesome-places-db.firebaseio.com/places.json?auth="+token)
             })
             .catch(() => {

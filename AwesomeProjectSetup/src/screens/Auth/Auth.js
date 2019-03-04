@@ -8,7 +8,7 @@ import MainText from '../../components/UI/MainText/MainText';
 import backgroundImage from '../../assets/background.jpg';
 import ButtonWithBackground from '../../components/UI/ButtonWithBackground/ButtonWithBackground';
 import validate from '../../utility/validation';
-import { tryAuth } from '../../store/actions/index'
+import { tryAuth, autoSignin } from '../../store/actions/index'
 
 class AuthScreen extends Component {
     state = {
@@ -49,6 +49,11 @@ class AuthScreen extends Component {
 
     componentWillUnmount = () => {
         Dimensions.removeEventListener("change", this.updateViewModel);
+    }
+
+    componentDidMount = () => {
+        // good place to check if user has token
+        this.props.onAutoSignIn();
     }
 
     switchAuthModeHandler = () => {
@@ -238,7 +243,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onTryAuth: (authData, authMode) => dispatch(tryAuth(authData, authMode))
+        onTryAuth: (authData, authMode) => dispatch(tryAuth(authData, authMode)),
+        onAutoSignIn: () => dispatch(autoSignin())
     };
 };
 

@@ -45,6 +45,7 @@ class SharePlaceScreen extends Component {
             this.state.controls.placeName.value, 
             this.state.controls.location.value,
             this.state.controls.image.value);
+        this.reset();
     }
 
     navigationButtonPressed({ buttonId }) {
@@ -104,6 +105,31 @@ class SharePlaceScreen extends Component {
         })
     }
 
+    reset = () => {
+        this.setState({
+            controls: {
+                placeName: {
+                    value: "",
+                    valid: false,
+                    validationRules: {
+                        validString: true
+                    },
+                    touched: false
+                },
+                location: {
+                    value: null,
+                    valid: false
+                },
+                image: {
+                    value: null,
+                    valid: false
+                }    
+            }
+        });
+        this.imagePicker.reset();
+        this.locationPicker.reset();
+    }
+
     render() {
         let submitButton = 
             <Button 
@@ -124,8 +150,12 @@ class SharePlaceScreen extends Component {
                         <MainText>
                             <HeadingText>Share a Place With Us!</HeadingText>
                         </MainText>
-                        <PickImage onImagePick={this.imagePickedHandler}/>
-                        <PickLocation onLocationPick={this.locationPickedHandler} />
+                        <PickImage 
+                            onImagePick={this.imagePickedHandler}
+                            ref={ref => (this.imagePicker = ref)}/>
+                        <PickLocation 
+                            onLocationPick={this.locationPickedHandler}
+                            ref={ref => (this.locationPicker = ref)} />
                         <PlaceInput 
                             placeData={this.state.controls.placeName}
                             onChangeText={ val => this.updateInputState(val)}

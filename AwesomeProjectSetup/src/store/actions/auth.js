@@ -45,18 +45,19 @@ export const tryAuth = (authData, authMode) => {
     }
 };
 
-export const authSetToken = token => {
+export const authSetToken = (token, expiryDate) => {
     return {    
         type: AUTH_SET_TOKEN,
         token: token,
+        expiryDate: expiryDate
     }
 }
 
 export const authStoreToken = (token, expiresIn, refreshToken) => {
     return dispatch => {
-        dispatch(authSetToken(token));
         const now = new Date();
         const expiryDate = now.getTime() + (expiresIn * 1000);
+        dispatch(authSetToken(token, expiryDate));
         AsyncStorage.setItem("ap:auth:token", token);  // can name token any string you want
         AsyncStorage.setItem("ap:auth:expiryDate", expiryDate.toString());  
         AsyncStorage.setItem("ap:auth:refreshToken", refreshToken);  
@@ -67,7 +68,8 @@ export const authGetToken = () => {
     return (dispatch, getState) => {
         const promise = new Promise((resolve, reject) => {
             const token = getState().auth.token;
-            if(!token){
+            const expiryDate = getState().auth.expiryDate;
+            if (!token || new Date(expiryDate) <= new Date()) {
                 let fetchedToken;
                 AsyncStorage.getItem("ap:auth:token")
                     .catch(err => reject())

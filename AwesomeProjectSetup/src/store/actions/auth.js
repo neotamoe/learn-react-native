@@ -1,10 +1,12 @@
 import { AsyncStorage } from 'react-native';
-import {Navigation} from 'react-native-navigation';
+
 import { TRY_AUTH, AUTH_SET_TOKEN, AUTH_REMOVE_TOKEN } from './actionTypes';
 import { uiStartLoading, uiStopLoading} from "./index";
 import startMainTabs from '../../screens/MainTabs/startMainTabs';
 import authKey from '../../../authKey';
-import App from '../../../App';
+// import App from '../../../App';
+// import { Navigation } from 'react-native-navigation';
+import setRoot from '../../../App';
 
 export const tryAuth = (authData, authMode) => { 
     return dispatch => {
@@ -144,13 +146,12 @@ export const authClearStorage = () => {
 }
 
 export const authLogout = () => {
-    console.log('authLogout action hit');
     return dispatch => {
         dispatch(authClearStorage())
             .then(() => {
-                console.log('in then after clear storage in authLogout');
-                Navigation.popToRoot(this.props.componentId);
+                setRoot();
             });
+        dispatch(authRemoveToken());
     }
 }
 

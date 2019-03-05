@@ -1,7 +1,9 @@
 export {
     addPlace,
     deletePlace,
-    getPlaces
+    getPlaces,
+    placeAdded,
+    startAddPlace
 } from './places';
 
 export {

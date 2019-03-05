@@ -11,7 +11,7 @@ import PickImage from '../../components/PickImage/PickImage';
 import PickLocation from '../../components/PickLocation/PickLocation';
 import validate from '../../utility/validation';
 
-import {addPlace} from '../../store/actions/index';
+import {addPlace, startAddPlace} from '../../store/actions/index';
 
 class SharePlaceScreen extends Component {
     constructor(props) {
@@ -38,6 +38,20 @@ class SharePlaceScreen extends Component {
                 valid: false
             }    
         }
+    }
+
+    componentDidUpdate() {
+        if(this.props.placeAdded){
+            Navigation.mergeOptions(this.props.componentId, {
+                bottomTabs: {
+                    currentTabIndex: 0
+                }
+            })
+        }
+    }
+
+    componentDidAppear(){
+        this.props.onStartAddPlace();
     }
 
     placeAddedHandler = () => {
@@ -197,12 +211,14 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
     return {
         isLoading: state.ui.isLoading,
+        placeAdded: state.places.placeAdded,
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        onAddPlace: (placeName, location, image) => dispatch(addPlace(placeName, location, image))
+        onAddPlace: (placeName, location, image) => dispatch(addPlace(placeName, location, image)),
+        onStartAddPlace: () => dispatch(startAddPlace())
     }
 }
 

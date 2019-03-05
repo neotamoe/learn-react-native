@@ -1,9 +1,11 @@
 import { AsyncStorage } from 'react-native';
 
-import { TRY_AUTH, AUTH_SET_TOKEN } from './actionTypes';
+import { TRY_AUTH, AUTH_SET_TOKEN, AUTH_REMOVE_TOKEN } from './actionTypes';
 import { uiStartLoading, uiStopLoading} from "./index";
 import startMainTabs from '../../screens/MainTabs/startMainTabs';
 import authKey from '../../../authKey';
+import App from '../../../App';
+import { Navigation } from 'winjs';
 
 export const tryAuth = (authData, authMode) => { 
     return dispatch => {
@@ -138,5 +140,23 @@ export const authClearStorage = () => {
     return dispatch => {
         AsyncStorage.removeItem("ap:auth:token");
         AsyncStorage.removeItem("ap:auth:expiryDate");    
+        return AsyncStorage.removeItem("ap:auth:refreshToken");    
     }
 }
+
+export const authLogout = () => {
+    console.log('authLogout action hit');
+    return dispatch => {
+        dispatch(authClearStorage())
+            .then(() => {
+                console.log('in then after clear storage in authLogout');
+                Navigation.popToRoot(this.props.componentId);
+            });
+    }
+}
+
+export const authRemoveToken = () => {
+    return {
+        type: AUTH_REMOVE_TOKEN
+    };
+};

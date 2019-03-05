@@ -27,17 +27,24 @@ export const addPlace = (placeName, location, image) => {
                 }
             })    
         })
-        .catch(err => {
+        .catch(err => {  // this only catches missing network connectivity errors; doesn't catch 4xx or 5xx errors
             console.log(err);
             alert("Something went wrong; please try again.");
             dispatch(uiStopLoading());
-        })
-        .then(res => res.json())  // this only catches missing network connectivity errors; doesn't catch 4xx or 5xx errors
+        })  
+        .then(res => {
+            if(res.ok){
+                return res.json();
+            } else {
+                throw(new Error());
+            }
+        })  
         .then(parsedRes => {
             const placeData = {
                 name: placeName, 
                 location: location,
-                image: parsedRes.imageUrl
+                image: parsedRes.imageUrl,
+                imagePath: parsedRes.imagePath
             };
             console.log('placeData', placeData);
             return fetch("https://awesome-places-db.firebaseio.com/places.json?auth="+authToken, {
@@ -50,7 +57,13 @@ export const addPlace = (placeName, location, image) => {
             alert("Something went wrong; please try again.");
             dispatch(uiStopLoading());
         })
-        .then(res => res.json())  // this is needed when using fetch
+        .then(res => {
+            if(res.ok){
+                return res.json();
+            } else {
+                throw(new Error());
+            }
+        })
         .then(parsedRes => {
             dispatch(uiStopLoading());
             dispatch(placeAdded());

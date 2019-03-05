@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {View, Text, Button, StyleSheet, SafeAreaView,TouchableOpacity, Platform} from 'react-native';
-import ButtonWithBackground from '../../components/UI/ButtonWithBackground/ButtonWithBackground';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import {connect} from 'react-redux';

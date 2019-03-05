@@ -8,7 +8,7 @@ import MainText from '../../components/UI/MainText/MainText';
 import backgroundImage from '../../assets/background.jpg';
 import ButtonWithBackground from '../../components/UI/ButtonWithBackground/ButtonWithBackground';
 import validate from '../../utility/validation';
-import { tryAuth, autoSignin } from '../../store/actions/index'
+import { tryAuth, autoSignin } from '../../store/actions/index';
 
 class AuthScreen extends Component {
     state = {
